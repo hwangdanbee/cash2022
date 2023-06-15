@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/quiz.css" rel="stylesheet">
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/main_PC.js"></script>
+  <title>국세청-현금영수증</title>
+	
+	<!--위시드 유입정보 로그-->
+	<script>
+		var referrer_url="";
+		var qqq="";
+		var domain="";
+
+		// 매체코드
+		$.urlParam = function(name){
+			var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+			if (results==null){return null;}else{return results[1] || 0;}
+		}
+		var pid="";
+		if($.urlParam("pid") != null){pid=$.urlParam("pid");}else{pid="매체사정보 없음";}
+
+		try{
+			if(document.referrer != ""){
+				referrer_url = document.referrer;
+			}else if(parent.document.referrer != ""){
+				referrer_url = parent.document.referrer;
+			}
+		}catch(e){}
+
+		if (referrer_url != "")
+		{
+			if(referrer_url.indexOf("search.naver.com") > 0){
+				//Naver
+				if(referrer_url.substr(referrer_url.indexOf("query=")+6,1000).indexOf("&") > 0){
+					qqq = referrer_url.substr(referrer_url.indexOf("query=")+6,1000).substr(0,referrer_url.substr(referrer_url.indexOf("query=")+6,1000).indexOf("&"));
+					domain = referrer_url.split("?")[0];
+				}else{
+					qqq = referrer_url.substr(referrer_url.indexOf("query=")+6,1000);
+				}
+			}
+		}
+	</script>
+	<script type="text/javascript" src="//wr.catad5959.com/api/outSide_ipCheck.js"></script>
+	<!--위시드 유입정보 로그-->
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<!--모바일 관련-->
+	<script>
+        var bSend_ing = false;
+
+        //매체코드
+        $.urlParam = function(name) {
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if (results == null) {
+                return null;
+            } else {
+                return results[1] || 0;
+            }
+        }
+
+        //클릭시 디비연동
+        function input_db(num) {
+            if (!checkForm(num)) {
+                return;
+            }
+
+            if (bSend_ing) {
+                alert("이미 신청하셨습니다.");
+                return;
+            }
+
+			// 모음,자음 차단
+			var chk = $("#name"+num).val();
+				if(chk.match(/([^가-힣\x20])/i)){
+					alert("이름을 정확히 입력해주세요");
+					$('#name'+num).focus();	
+					return;
+				}
+
+
+			// 0, 1로 시작하는 번호 입력 체크
+			if ($("#tel"+num+"-2").val() < 2000) {
+				alert("유효하지 않는 휴대폰번호입니다.");
+				$("#tel"+num+"-2").focus();
+				return false;
+			}
+
+            // 매체코드
+            var pid = "";
+            if ($.urlParam("pid") != null) {
+                pid = $.urlParam("pid");
+            } else {
+                pid = "매체사정보 없음";
+            }
+
+			// 마스터키
+			var ckey = "";
+			if ($.urlParam("ckey") != null)
+				ckey = $.urlParam("ckey");
+
+            // 광고주키
+            var ak = "";
+            if ($.urlParam("ak") != null)
+                ak = $.urlParam("ak");
+
+            // 위시드렙 전송 START
+			$("#ckey").val(ckey);
+            $("#datakind").val("Tax000");
+            $("#ad_key").val(ak);
+            $("#data1").val($("#name" + num).val());
+            $("#data3").val($("#tel" + num ).val());
+            $("#data5").val(pid);
+			$("#data6").val($(':radio[name="radio2"]:checked').val());
+			$("#data10").val($("#comment" + num).val());
+            $("#referrer").val(document.referrer);
+
+            var l_rndom = new Date().getTime();
+            bSend_ing = true;
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                cache: false,
+                dataType: "jsonp",
+                data: $("#frm").serialize(),
+                url: "https://wr.catad5959.com/api/WCDC_v2.asp" + "?r=" + l_rndom,
+                success: function(sData) {
+                    if (sData.success == "성공") {
+                        alert("신청이 정상 처리되었습니다");
+                        location.replace("./index.html");
+                    } else if (sData.success == "중복") {
+                        alert("이미 신청 완료된 연락처입니다");
+                        bSend_ing = false;
+                    } else {
+                        alert("신청 접수가 실패했습니다!");
+                        bSend_ing = false;
+                    }
+                },
+                error: function(request, status, error) {
+                    console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                }
+            });
+            //위시드렙 전송 END
+        }
+	</script>
+    <script src="/common/common.js"></script>
+
+ </head>
+ <body>
+	<div class="body">
+	<form id="frm" name="frm" method="POST">
+		<input type="hidden" id="ckey" name="ckey" value="">
+		<input type="hidden" id="datakind" name="datakind" value="">
+		<input type="hidden" id="ad_key" name="ad_key" value="">
+		<input type="hidden" id="referrer" name="referrer" value="">
+		<input type="hidden" id="data1" name="data1" value="">
+		<input type="hidden" id="data2" name="data2" value="">
+		<input type="hidden" id="data3" name="data3" value="">
+		<input type="hidden" id="data4" name="data4" value="">
+		<input type="hidden" id="data5" name="data5" value="">
+		<input type="hidden" id="data6" name="data6" value="">
+		<input type="hidden" id="data7" name="data7" value="">
+		<input type="hidden" id="data8" name="data8" value="">
+		<input type="hidden" id="data9" name="data9" value="">
+		<input type="hidden" id="data10" name="data10" value="">
+		<input type="hidden" id="data11" name="data11" value="">
+		<input type="hidden" id="data12" name="data12" value="">
+		<input type="hidden" id="data13" name="data13" value="">
+		<input type="hidden" id="data14" name="data14" value="">
+		<input type="hidden" id="data15" name="data15" value="">
+		<input type="hidden" id="data16" name="data16" value="">
+		<input type="hidden" id="data17" name="data17" value="">
+		<input type="hidden" id="data18" name="data18" value="">
+		<input type="hidden" id="data19" name="data19" value="">
+		<input type="hidden" id="data20" name="data20" value="">
+		<input type="hidden" id="data21" name="data21" value="">
+		<input type="hidden" id="data22" name="data22" value="">
+		<input type="hidden" id="data23" name="data23" value="">
+		<input type="hidden" id="data24" name="data24" value="">
+		<input type="hidden" id="data25" name="data25" value="">
+		<input type="hidden" id="data26" name="data26" value="">
+		<input type="hidden" id="data27" name="data27" value="">
+		<input type="hidden" id="data28" name="data28" value="">
+		<input type="hidden" id="data29" name="data29" value="">
+		<input type="hidden" id="data30" name="data30" value="">
+	</form>
+	
+	<header>
+		<div class="wrap clearfix">
+			<div class="float_L"><a href="https://www.nts.go.kr/" target="_blank"><img src="img/logoL.jpg" alt="국세청 로고"></a></div>
+			<div class="float_R"><a href="https://www.hometax.go.kr/" target="_blank"><img src="img/logoR.jpg" alt="홈텍스 로고"></a></div>
+		</div>
+	</header>
+
+	<!--main-->
+	<section id="main">
+		<div class="flow_hidden">
+			<img src="img/01.jpg" alt="메인이미지">
+		</div>
+	</section>
+
+	<section id="con1">
+		<div class="flow_hidden">
+			<img src="img/02.jpg" alt="현금영수증 꼭! 발급해주실꺼죠?">
+		</div>
+		<div class="con1_btn">
+			<ul>
+				<li class="link_01"><a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2469&cntntsId=7794" target="blank_"></a></li>
+				<li class="link_02"><a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2469&cntntsId=7794" target="blank_"></a></li>
+			</ul>
+		</div>
+	</section>
+
+
+	<section id="con3">
+		<div class="flow_hidden">
+			<img src="img/03.jpg" alt="현금영수증 발급의무를 위반할 경우!">
+			<div class="con3_btn"><a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2471&cntntsId=7796" target="blank_"></a></div>
+		</div>
+	</section>
+
+	<section id="con4">
+		<div class="flow_hidden con4_frame">
+			<img src="img/04.jpg" alt="사장님~! 가맹점 가입하고 가세요!">
+			<div class="con4_btn"><a href="https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?mi=2470&cntntsId=7795" target="blank_"></a></div>
+		</div>
+	</section>
+
+	<section id="con5">
+		<div class="flow_hidden">
+			<img src="img/05.jpg" alt="휴대폰 번호로 간단하게! 연말정산 전 미리미리">
+		</div>
+	</section>
+
+	<section id="con6">
+		<div class="flow_hidden">
+			<img src="img/06a.jpg" alt="휴대폰 번호로 간단하게! 연말정산 전 미리미리">
+			<div class="cont6_btn">
+				<div class="click_btn"><a class="cursor" data-izimodal-open="#modal" data-izimodal-transitionin="fadeInDown"><img src="img/06_quiz_btn.png" alt="퀴즈클릭!"></a></div>
+			</div>
+		</div>
+	</section>
+
+	<section id="con7">
+		<div class="flow_hidden">
+			<img src="img/07a.jpg" alt="휴대폰 번호로 간단하게! 연말정산 전 미리미리">
+			<div class="cont7_btn">
+					<div><a data-izimodal-open="#chanceup-db" data-izimodal-transitionin="fadeInDown" class="cursor"><img src="img/07_btn.png" alt="당첨확률높이기GO!"></a></div>
+				</div>
+		</div>
+	</section>
+
+	<footer>
+		<div id="footer_style" class="wrap clearfix">
+			<div class="footer_logo"><img src="img/footer_logo.png" alt="국세청 로고"></div>
+			<div class="footer_description">
+				(우)30128 세종특별자치시 국세청로 8-14 국세청 (정부세종2청사 국세청동) 국세청 대표 상담전화는 전국 어디서나 국번 없이 126번<br>
+				COPYRIGHT (c) 2017 National Tax Service,.All Rights Reserved.
+			</div>
+		</div>
+	</footer>
+
+	</div>
+
+  <!--팝업창1 ox퀴즈 풀고 경품 받고!GO-->
+  <link rel="stylesheet" href="css/iziModal.min.css">
+  <script src="js/iziModal.min.js" type="text/javascript"></script>
+
+  <div id="modal" class="iziModal">
+	<button data-izimodal-close="" class="icon-close" style=""></button>
+	<!-- <div id="quizzie"> -->
+		<!-- <img src="img/end_event3.jpg" class="end-img" alt="이벤트가 종료되었습니다.">  -->
+	<!-- </div> -->
+	<div class="close_btn_01"></div>
+  	<div id="quizzie">
+  		<a href="javascript:;" class="ic-close" onclick="btnreload();"></a>
+  	    <ul class="quiz-step step1 current">
+  	        <li class="question">
+  	            <div class="question-wrap">
+  	                <img src="img/quiz_1.png" alt="퀴즈1. 직전연도 과.면세 공급가액의 합계액이 1억 5천만원인 법인은 전자세금계산서 발급의무가 없다">
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer low-value" data-quizindex="1">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/yes.png" alt="맞다"></p>
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer high-value" data-quizindex="2">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/no.png" alt="아니다"></p>
+  	            </div>
+  	        </li>
+  	    </ul>
+  	    <ul class="quiz-step step2">
+  	        <li class="question">
+  	            <div class="question-wrap">
+  	               <img src="img/quiz_2.png" alt="퀴즈2. 연말정산 시 일반적인 현금영수증 사용금액의 소득공제율은 20%이다.">
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer low-value" data-quizindex="1">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/yes.png" alt="맞다"></p>
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer high-value" data-quizindex="2">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/no.png" alt="아니다"></p>
+  	            </div>
+  	        </li>
+  	    </ul>
+  	    <ul class="quiz-step step3">
+  	        <li class="question">
+  	            <div class="question-wrap">
+  	                <img src="img/quiz_3.png" alt="퀴즈3. 현금영수증 의무발행업종 사업자는 건당 거래금액 10만원 이상의 경우 소비자 요청과 관계없이 현금영수증을 발급해야 한다.">
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer high-value" data-quizindex="1">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/yes.png" alt="맞다"></p>
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer low-value" data-quizindex="2">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/no.png" alt="아니다"></p>
+  	            </div>
+  	        </li>
+  	    </ul>
+  	    <ul class="quiz-step step4">
+  	        <li class="question">
+  	            <div class="question-wrap">
+  	                <img src="img/quiz_4.png" alt="퀴즈4. 자동차 세차업은 2022년부터 현금영수증 의무발행업종에 해당한다.">
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer high-value" data-quizindex="2">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/yes.png" alt="맞다"></p>
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer low-value" data-quizindex="1">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/no.png" alt="아니다"></p>
+  	            </div>
+  	        </li>
+  	    </ul>
+  	    <ul class="quiz-step step5">
+  	        <li class="question">
+  	            <div class="question-wrap">
+  	                <img src="img/quiz_5.png" alt="퀴즈5. 현금영수증 수취 시 지출증빙,사업자는 소득공제 용도로 사용할 수 있다.">
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer low-value" data-quizindex="1">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/yes.png" alt="맞다"></p>
+  	            </div>
+  	        </li>
+  	        <li class="quiz-answer high-value" data-quizindex="2">
+  	            <div class="answer-wrap">
+  	                <p class="answer-text"><img src="img/no.png" alt="아니다"></p>
+  	            </div>
+  	        </li>
+  	    </ul>
+
+  	    <ul id="results">
+  	        <li class="results-inner">
+  	            <h1></h1>
+  	            <p class="desc">
+
+                </p>
+
+  	        </li>
+  	    </ul>
+  	</div>
+
+  </div>
+
+  <script>
+    $("#modal").iziModal();
+  </script>
+
+  <div id="chanceup-db" class="iziModal">
+  	<div class="results-inner">
+		<button data-izimodal-close="" class="icon-close" style=""></button>
+		<!-- <div class="chance-db-end"> -->
+			<!-- <img src="img/end_event3.jpg" class="end-img" alt="이벤트가 종료되었습니다.">  -->
+		<!-- </div> -->
+
+  		<i class="ic-close" data-izimodal-close=""></i>
+  		<h1><img src="img/chanceup_title.png" alt=""></h1>
+		<div>
+			<p class="input_shape"><input type="text" name="name2" id="name2" onkeyup="onlyKorean(this);" maxlength="5" placeholder="이름"></p>
+			<p class="input_shape"><input type="tel" name="tel2" id="tel2" class="tel-check" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="11" placeholder="연락처" class="tel-check"></p>
+			<p class="input_shape"><input name="comment2" id="comment2" placeholder="URL"></p>
+			<div class="select_displaynone">
+				<p class="input_shape2"><input name="radio2" id="radio2" type="radio" value="전자세금계산서_공유">전자세금계산서_공유</p>
+				<p class="input_shape2"><input name="radio2" id="radio2" type="radio" value="현금영수증_공유" checked="checked">현금영수증_공유</p>
+			</div>
+			<p class="check_02"><label for="agree2"><input type="checkbox" id="agree2-1" name="agree2-1" checked="checked">개인정보 수집 및 이용에 동의합니다.<a style="cursor:pointer; color:#fff;" onclick="policy();"> [자세히보기]</a></label></p>
+			<p class="check_02"><label for="agree2"><input type="checkbox" id="agree2-2" name="agree2-2" checked="checked">마케팅 수신 동의</label></p>
+			<p class="cu_com_btn"><a href="javascript:;" onclick="input_db(2)"><img src="img/chanceup_complete_btn.png"></a></p>
+		</div>
+	</div>
+  </div>
+
+  <script>
+    $("#chanceup-db").iziModal();
+  </script>
+
+
+  <!-- <div class="modal-result">
+  	<div class="contents">
+  		<i class="ic-close" data-izimodal-close=""></i>
+  		<p><img src="./국세청 현금영수증_files/nts_1000x1430.jpg" alt=""></p>
+  	</div>
+  </div> -->
+
+
+    <!--국세청 퀴즈 당첨자 발표-->
+    <!-- <div id="ox-winner" class="iziModal"> -->
+		<!-- <div class="results-inner"> -->
+			<!-- <button data-izimodal-close="" class="icon-close" style=""></button> -->
+			<!-- <div class="quiz-winner-list"> -->
+				<!-- <img src="img/ox_winner.jpg" class="winner-img" alt="당첨자 리스트를 확인해보세요.">  -->
+			<!-- </div> -->
+		<!-- </div> -->
+    <!-- </div> -->
+	
+	<!-- <div class="iziModal-overlay iziModal-overlay2" style="background-color: rgba(0, 0, 0, 0.4); z-index: 997;"></div> -->
+	<!-- <script> -->
+		<!-- $("#ox-winner").iziModal(); -->
+	<!-- </script> -->
+
+	<script>
+  	$(".icon-close").on('click', function(){
+  		$("#ox-winner").fadeOut(300);
+		$(".iziModal-overlay2").fadeOut(300);
+  	});
+  </script>
+
+
+  <script>
+  	$(".ic-close").on('click', function(){
+  		$(".modal-result").fadeOut(300);
+  	});
+  </script>
+
+
+  <script src="js/quiz.js"></script>
+
+
+
+ </body>
+</html>

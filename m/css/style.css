@@ -1,0 +1,176 @@
+@charset "UTF-8";
+
+.modal{position:fixed; top:0px; right:0; bottom:0; left:0; z-index:1050; display:none; overflow:hidden; outline:0; transform: translate3d(0px, -10px, 0px); transition: all 0.7s;}
+.modal.on3 {position:fixed; top:0; right:0; bottom:0; left:0; z-index:1050; display:none; overflow:hidden; outline:0; transform: translate3d(0px, 10px, 0px);}
+
+.modal-backdrop {position:fixed;	top:0; right:0; bottom:0; left:0; z-index:1040; background:#000; opacity:0.5;}
+.modal-content {background: #fff; border-radius:20px; transform: translateY(90px);}
+.modal-dialog {padding-top:0px; height: 0;}
+
+/*reset*/
+* {margin:0; padding:0;}
+ul,li {list-style:none;}
+a {text-decoration:none; color:#333;}
+img { vertical-align:top; border:0;}
+body {/*overflow-x: hidden;*/ font-family: 'Noto Sans KR', sans-serif;}
+.clearfix:after {content:''; clear:both; display:block; height:0;}
+
+.wrap {position: relative; max-width:720px; margin:0 auto;}
+.float_L {float:left;}
+.float_R {float:right;}
+.cursor {cursor:pointer;}
+.width100 {width:100%;} .width90 {width:90%;} .width80 {width:80%;} .width70 {width:70%;}
+.width60 {width:60%;} .width50 {width:50%;} .width40 {width:40%;} .width30 {width:30%;}
+.width20 {width:20%;} .width10 {width:10%;}
+
+/*구글 web fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+section {text-align:center;}
+/* section div.flow_hidden {overflow:hidden;} */
+
+/*header*/
+header > .wrap {padding:10px 0px;}
+.float_L {width:120px; padding:5px 0px 0px 5px; box-sizing:border-box;}
+.float_L img {width:100%;}
+.float_R {width:120px; padding:5px 5px 0px 0px; box-sizing:border-box;}
+.float_R img {width:100%;}
+
+/*con1*/
+section#con1 {position:relative;}
+.con1_btn {position:absolute; width:100%; height: 100%; top:0;}
+.con1_btn ul li.link_01 {position:absolute; top:52.5%; right:33%; width:35%; height:3%;}
+.con1_btn ul li.link_01 a  {display:block; width:100%; height:100%; cursor:pointer;}
+.con1_btn ul li.link_02 {position:absolute; bottom:9%; right:33%; width:35%; height:3%;}
+.con1_btn ul li.link_02 a  {display:block; width:100%; height:100%; cursor:pointer;}
+
+/*con2*/
+section#con2 {position:relative;}
+section#con2 .con2_btn {position:absolute; width:46.5%; height:4.8%; left:0; right:0; bottom:29.5%; margin: 0 auto;}
+section#con2 .con2_btn a {display:block; width:100%; height:100%; cursor:pointer;}
+
+/*con3*/
+section#con3 {position:relative;}
+section#con3 .con3_btn {position:absolute; width:46.8%; height:4.5%; left:17%; right:0; bottom:28.8%; margin: 0 auto;}
+section#con3 .con3_btn a {display:block; width:100%; height:100%; cursor:pointer;}
+
+/*con4*/
+section#con4 .con4_frame {position:relative;}
+section#con4 .con4_btn {position:absolute; width:100%; bottom: 5%; margin: 0 auto;}
+
+
+/*con5*/
+section#con5 {position:relative;}
+section#con5 div.con5_inner {text-align:center; box-sizing:border-box;}
+section#con5 div.cont5_btn div.click_btn {position:absolute; width:100%;  bottom: 17%;}
+
+/*con6*/
+section#con6 {position:relative;}
+section#con6 div.con6_inner {text-align:center; box-sizing:border-box;}
+section#con6 div.cont6_btn div {position:absolute; width:100%;  bottom: 37%;}
+
+
+.db_overlay {position:fixed; top:0; right:0; bottom:0; left:0; z-index:998; background:#000; opacity:0.5; display:none;}
+#chanceup-db {z-index:999; position:fixed; width:100%; top:75px; bottom:0; left:0; right:0; margin:0 auto; display:none;}
+#chanceup-db .results-inner h1 {margin:55px 0px 15px;}
+#chanceup-db .results-inner {text-align:center;}
+#chanceup-db p {margin: 0px 0 5px;}
+#chanceup-db .results-inner p.cu_com_btn {margin:20px 0px 30px;}
+#chanceup-db .results-inner p.input_shape input {width:85%; height:60px; background:#f2f2f2; border:0; font-size:18px; margin:5px 0px; text-align: center;}
+#chanceup-db .results-inner .select_displaynone {display:none;}
+#chanceup-db .results-inner p.input_shape2 {display:inline-block; width:30%;}
+#chanceup-db .results-inner p.input_shape2 input {width:25%; height:20px; background:#f2f2f2; border:0; border-radius:30px; padding-left:24px; font-size:18px; margin:3px 0px;}
+#chanceup-db .results-inner p.check_02 label {font-family: 'GmarketSansMedium'; letter-spacing:-1.5px; font-size:16px; color:#fff;}
+.iziModal-wrap {border-radius:40px; background:#fff; padding: 10px 0px;}
+
+
+/*popup quiz*/
+.bg_blind_1 {width:100%; height:100vh; background:rgba(0,0,0,0.5); position:fixed; z-index:1; top:0; display:none;}
+.quiz_box {width:800px; height:auto; background:#f3f3f3; margin:140px auto 0px; border-radius:30px; position:relative;}
+.quiz_box .quiz {text-align:center;}
+.question > img {padding-top:25px;}
+.answer {width:100%; background:#fff; padding:40px 0px; margin-top:10px; border-radius:30px;}
+.answer > ul {width:90%; margin:0 auto;}
+.answer > ul > li {float:left; margin:0 30px;}
+.answer > ul > li:hover > img {filter:brightness(120%);}
+.mid_line {padding-top:30px;}
+.mid_line > div {width:30px; height:150px; background:#e5e5e5; border-radius:20px;}
+
+#quiz01 {display:block;}
+#quiz02 {display:none;}
+#quiz03 {display:none;}
+#quiz04 {display:none;}
+#quiz05 {display:none;}
+#quiz_answer {display:none;}
+
+#quiz01.active {display:none;}
+#quiz02.active {display:block;}
+#quiz03.active {display:block;}
+#quiz04.active {display:block;}
+#quiz05.active {display:block;}
+#quiz_answer.active {display:block;}
+
+
+.quiz_box .close_btn {width:70px; height:70px; background:#000; border-radius:50px; position:absolute; top:-25px; right:-25px;}
+.quiz_box .close_btn a {display:block; color:#fff; font-size:50px; text-align:center; line-height:58px;}
+
+
+/*20210825 quiz section - update css*/
+#quizzie {text-align:center; padding:18px 5px; width:100%; background-image:url('../img/m/quiz_bg.jpg'); box-sizing: border-box;}
+#quizzie .end-img {width:80%;}
+.icon-close {background: rgba(0,0,0,0.3); margin-bottom:10px; position:absolute; right:0px; top:0px; font-size:22px; font-weight:bold; border-radius:0%; width:49px; height:47px; border: 0; color: #fff; cursor: pointer;}
+.icon-close:before {content:url("../img/m/close-x5.png"); margin-top:5px;}
+.chance-db-end {text-align:center; padding:35px;}
+.chance-db-end .end-img {width:85%;}
+.modal-content {background:#f5f5f5; border-radius:0px; transform: translateY(210px);}
+#chanceup-db {top:230px; transition: all 0.7s;}
+.iziModal-wrap {border-radius:0px; background:#f5f5f5; padding: 10px 0px;}
+.iziModal .iziModal-wrap {width:100%; background-image:url('../img/m/quiz_bg.jpg') !important; border-radius:0px !important;}
+
+@media (max-width:500px){
+	.modal-content  {width: 90%; margin: 0 auto; border-radius:0px;}
+
+	.iziModal-wrap {border-radius:0px; background:#f5f5f5; padding: 10px 0px;}
+	#chanceup-db {width:90%; margin:0 auto; top:155px;}
+}
+
+/*20210830 당첨자 확인*/
+
+#ox-winner {position:absolute; top:15%; bottom:0; left:0; right:0; margin:auto; display:block; max-width: 670px !important;}
+.quiz-winner-list {padding:20px 10px 0px; text-align:center;}
+.quiz-winner-list > img {width:100%;}
+.icon-close2 {background:#000; margin-bottom:10px; position:absolute; right:0px; top:0px; font-size:22px; font-weight:bold; border-radius:0%; width:50px; height:50px; border: 0; color: #fff; cursor: pointer;}
+.icon-close2:before {content:url("../img/m/close-x4.png"); margin-top:5px;}
+
+@media (max-width:500px) {
+	#ox-winner {position:absolute; top:15%; bottom:0; left:0; right:0; margin:auto; display:block; max-width:95% !important;}
+	.icon-close2 {background:#000; margin-bottom:10px; position:absolute; right:0px; top:0px; font-size:22px; font-weight:bold; border-radius:0%; width:50px; height:50px; border: 0; color: #fff; cursor: pointer;}
+}
+/*당첨자 확인 끝*/
+
+
+/*mobile responsive web*/
+
+@media (max-width:500px) {
+	footer div#footer_style > div:nth-child(1) > img {width:80%;}
+	footer div#footer_style > div:nth-child(2) {line-height:20px; font-size:13px; color:#e3e4e6; font-weight:300;}
+
+	/*chanceup*/
+	#chanceup-db .results-inner p.input_shape input {width:85%; height:50px; background:#f2f2f2; border:0; font-size:18px; margin:3px 0px; text-align: center;}
+	#chanceup-db .results-inner p.check_02 label {font-family: 'GmarketSansMedium'; letter-spacing:-1.5px; font-size:14px; color:#fff;}
+}
+@media (max-width:400px) {
+	/*header*/
+	header > .wrap {padding:10px 0px;}
+	.float_L {width:85px; padding:5px 0px 0px 5px; box-sizing:border-box;}
+	.float_L img {width:95%;}
+	.float_R {width:85px; padding:5px 5px 0px 0px; box-sizing:border-box;}
+	.float_R img {width:95%;}
+}
